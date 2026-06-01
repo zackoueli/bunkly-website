@@ -12,6 +12,11 @@ export const metadata: Metadata = {
   description:
     "Créez un livret d'accueil professionnel pour votre Airbnb, gîte ou camping en quelques minutes. QR code inclus, accessible sur mobile, zéro papier.",
   metadataBase: new URL("https://bunkly.co"),
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/icon.png",
+  },
   openGraph: {
     title: "Bunkly — Livrets d'accueil digitaux",
     description: "Créez un livret d'accueil professionnel pour votre location en quelques minutes.",
@@ -19,6 +24,7 @@ export const metadata: Metadata = {
     siteName: "Bunkly",
     locale: "fr_FR",
     type: "website",
+    images: [{ url: "/icon.png" }],
   },
 };
 
