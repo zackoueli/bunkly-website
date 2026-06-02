@@ -17,7 +17,7 @@ export function Hero() {
       {/* Image de fond plein écran */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="https://picsum.photos/seed/aerial-villa-pool-nature/1600/900"
+        src="/hero.jpg"
         alt=""
         aria-hidden
         className="absolute inset-0 w-full h-full object-cover"
