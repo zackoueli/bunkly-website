@@ -1,202 +1,198 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
+import QRCode from "react-qr-code";
 
 const APP_URL = "https://app.bunkly.co/fr";
-
-const phoneScreens = [
-  {
-    label: "Arrivee & Depart",
-    arrival: "16h00",
-    departure: "11h00",
-    color: "bg-orange-500",
-  },
-];
+const DEMO_LIVRET = "https://app.bunkly.co/b/1zdIjGyTTW";
 
 export function Hero() {
   const reduce = useReducedMotion();
 
   return (
-    <section className="min-h-[100dvh] bg-stone-50 flex items-center pt-16 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 w-full py-16 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+    <section
+      className="relative min-h-[100dvh] flex flex-col overflow-hidden"
+      style={{}}
+    >
+      {/* Image de fond plein écran */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="https://picsum.photos/seed/aerial-villa-pool-nature/1600/900"
+        alt=""
+        aria-hidden
+        className="absolute inset-0 w-full h-full object-cover"
+      />
 
-        {/* Left */}
-        <div className="flex flex-col gap-8">
-          <motion.div
-            initial={reduce ? false : { opacity: 0, y: 32 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col gap-6"
-          >
-            <p className="text-sm font-medium text-orange-500 tracking-wide">
-              Pour les hotes Airbnb, gites &amp; campings
-            </p>
+      {/* Overlay gradient — plus sombre à gauche pour lisibilité texte */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to right, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.40) 55%, rgba(0,0,0,0.15) 100%)",
+        }}
+        aria-hidden
+      />
+      {/* Overlay bas */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: "linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 40%)",
+        }}
+        aria-hidden
+      />
 
-            <h1 className="text-5xl md:text-6xl font-semibold tracking-tight leading-[1.05] text-zinc-900">
-              Le livret qui fait
-              <br />
-              <span className="relative inline-block">
-                <span className="relative z-10 text-orange-500">bonne impression</span>
-                <motion.span
-                  className="absolute -bottom-1 left-0 h-[3px] bg-orange-200 rounded-full"
-                  initial={{ width: 0 }}
-                  animate={{ width: "100%" }}
-                  transition={{ delay: 0.6, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                  aria-hidden
-                />
-              </span>
-              <br />
-              des le premier jour.
-            </h1>
+      {/* Contenu */}
+      <div className="relative z-10 flex-1 flex items-center max-w-7xl mx-auto px-6 w-full py-24 lg:py-0">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center w-full">
 
-            <p className="text-lg text-zinc-500 leading-relaxed max-w-[38ch]">
-              Creez un livret d&apos;accueil digital pour votre location en quelques minutes. QR code inclus, lisible sur mobile, zero papier.
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={reduce ? false : { opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col sm:flex-row gap-3"
-          >
-            <a
-              href={`${APP_URL}`}
-              className="inline-flex items-center justify-center font-semibold bg-orange-500 text-white px-7 py-3.5 rounded-2xl hover:bg-orange-600 active:scale-[0.97] transition-all text-sm shadow-lg shadow-orange-200"
+          {/* Gauche : texte */}
+          <div className="flex flex-col gap-7">
+            <motion.p
+              className="text-sm font-semibold uppercase tracking-widest"
+              style={{ color: "rgba(251,146,60,0.9)" }}
+              initial={reduce ? false : { opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
-              Creer mon livret gratuitement
-            </a>
-            <a
-              href="#comment-ca-marche"
-              className="inline-flex items-center justify-center font-medium text-zinc-600 px-7 py-3.5 rounded-2xl hover:text-zinc-900 hover:bg-zinc-100 active:scale-[0.97] transition-all text-sm"
+              Pour hotes Airbnb, gites &amp; campings
+            </motion.p>
+
+            <motion.h1
+              className="text-4xl md:text-5xl lg:text-[3.5rem] xl:text-6xl font-semibold tracking-tight leading-[1.07] text-white"
+              style={{ textShadow: "0 2px 20px rgba(0,0,0,0.25)" }}
+              initial={reduce ? false : { opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.08, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-              Voir la demo
-            </a>
-          </motion.div>
+              Le livret d&apos;accueil
+              <br />
+              que vos voyageurs
+              <br />
+              <span style={{ color: "#fb923c" }}>consultent vraiment.</span>
+            </motion.h1>
 
-          <motion.p
-            initial={reduce ? false : { opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.6 }}
-            className="text-xs text-zinc-400"
+            <motion.p
+              className="text-base leading-relaxed max-w-[38ch]"
+              style={{ color: "rgba(255,255,255,0.75)" }}
+              initial={reduce ? false : { opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.18, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            >
+              Creez un livret digital pour votre location en quelques minutes. QR code inclus, accessible sur mobile sans telechargement.
+            </motion.p>
+
+            <motion.div
+              className="flex flex-col sm:flex-row gap-3 pt-1"
+              initial={reduce ? false : { opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.28, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <a
+                href={APP_URL}
+                className="inline-flex items-center justify-center font-semibold text-white px-7 py-3.5 rounded-2xl active:scale-[0.97] transition-all text-sm shadow-lg"
+                style={{ backgroundColor: "#f97316" }}
+              >
+                Creer mon livret gratuitement
+              </a>
+            </motion.div>
+
+            <motion.p
+              className="text-xs"
+              style={{ color: "rgba(255,255,255,0.45)" }}
+              initial={reduce ? false : { opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              Gratuit jusqu&apos;a 3 livrets - sans carte bancaire
+            </motion.p>
+          </div>
+
+          {/* Droite : phone mockup + QR */}
+          <motion.div
+            className="flex items-center justify-center lg:justify-end gap-4"
+            initial={reduce ? false : { opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.12, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           >
-            Gratuit jusqu&apos;a 3 livrets - aucune carte bancaire
-          </motion.p>
-        </div>
+            {/* Phone mockup */}
+            <div className="relative shrink-0" style={{ width: "240px" }}>
+              {/* Halo */}
+              <div
+                className="absolute -inset-8 rounded-full blur-3xl pointer-events-none"
+                style={{ backgroundColor: "rgba(249,115,22,0.20)" }}
+                aria-hidden
+              />
 
-        {/* Right: phone stack */}
-        <motion.div
-          initial={reduce ? false : { opacity: 0, x: 48 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.15, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="relative flex justify-center lg:justify-end"
-        >
-          {/* Background blob */}
-          <div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-orange-400/15 rounded-full blur-3xl"
-            aria-hidden
-          />
+              <div className="relative bg-zinc-900 rounded-[2.75rem] p-[9px] shadow-2xl ring-1 ring-white/20">
+                <div
+                  className="relative bg-white rounded-[2.3rem] overflow-hidden"
+                  style={{ height: "500px" }}
+                >
+                  {/* Dynamic island */}
+                  <div className="absolute top-2.5 left-1/2 -translate-x-1/2 z-20 w-24 h-5 bg-zinc-900 rounded-full" />
 
-          {/* Main phone */}
-          <div className="relative z-10 w-[248px] md:w-[272px]">
-            <div className="bg-zinc-900 rounded-[2.75rem] p-[10px] shadow-2xl shadow-zinc-400/30 ring-1 ring-white/10">
-              <div className="bg-white rounded-[2.25rem] overflow-hidden">
-                {/* Notch */}
-                <div className="bg-zinc-900 h-8 flex items-center justify-center">
-                  <div className="w-24 h-[18px] bg-zinc-800 rounded-full" />
-                </div>
-
-                {/* Hero image */}
-                <div className="relative h-44 bg-zinc-200">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="https://picsum.photos/seed/villa-mediterranean/600/500"
-                    alt="Photo de la villa"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/80 via-zinc-900/20 to-transparent" />
-                  <div className="absolute bottom-3 left-4 right-4">
-                    <p className="text-white/60 text-[10px] font-medium">Votre sejour</p>
-                    <p className="text-white text-sm font-semibold leading-tight">Villa Les Palmiers</p>
-                    <p className="text-white/60 text-[10px] mt-0.5">06160 Juan-les-Pins</p>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-4 space-y-3">
-                  <div className="bg-stone-50 rounded-2xl p-3">
-                    <p className="text-[9px] font-semibold text-zinc-400 uppercase tracking-widest">Bienvenue</p>
-                    <div className="flex items-center gap-2 mt-1.5">
-                      <div className="w-6 h-6 rounded-full bg-zinc-200 shrink-0" />
-                      <div>
-                        <p className="text-[10px] font-semibold text-zinc-700">Sophie &amp; Marc</p>
-                        <p className="text-[9px] text-zinc-400">Vos hotes</p>
-                      </div>
-                    </div>
+                  {/* iframe — 390px iPhone width, scalé pour tenir dans 224px */}
+                  <div className="absolute inset-0 overflow-hidden" style={{ top: "26px" }}>
+                    <iframe
+                      src={DEMO_LIVRET}
+                      className="border-0"
+                      style={{
+                        width: "390px",
+                        height: "844px",
+                        transform: "scale(0.574)",
+                        transformOrigin: "top left",
+                      }}
+                      title="Livret d'accueil demo Bunkly"
+                      loading="lazy"
+                      sandbox="allow-scripts allow-same-origin"
+                    />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="bg-orange-500 rounded-2xl p-3">
-                      <p className="text-[9px] font-semibold text-orange-100 uppercase tracking-widest">Arrivee</p>
-                      <p className="text-xl font-bold text-white mt-1">16h00</p>
-                    </div>
-                    <div className="bg-zinc-100 rounded-2xl p-3">
-                      <p className="text-[9px] font-semibold text-zinc-400 uppercase tracking-widest">Depart</p>
-                      <p className="text-xl font-bold text-zinc-700 mt-1">11h00</p>
-                    </div>
-                  </div>
+                  {/* Masque top */}
+                  <div className="absolute top-0 inset-x-0 h-10 bg-gradient-to-b from-white to-transparent pointer-events-none z-10" />
 
-                  <div className="bg-stone-50 rounded-2xl p-3 flex items-center justify-between">
-                    <div>
-                      <p className="text-[9px] font-semibold text-zinc-400 uppercase tracking-widest">WiFi</p>
-                      <p className="text-[11px] font-semibold text-zinc-700 mt-0.5">VillaNetwork_5G</p>
-                    </div>
-                    <div className="bg-orange-100 rounded-lg px-2 py-1">
-                      <p className="text-[10px] font-bold text-orange-600">Voir</p>
-                    </div>
-                  </div>
                 </div>
-
-                {/* Bottom nav */}
-                <div className="border-t border-zinc-100 py-2 px-3 grid grid-cols-5">
-                  {[
-                    { label: "Accueil", active: true },
-                    { label: "Sejour", active: false },
-                    { label: "Activites", active: false },
-                    { label: "Urgences", active: false },
-                    { label: "Depart", active: false },
-                  ].map((tab) => (
-                    <div key={tab.label} className={`flex flex-col items-center gap-0.5 ${tab.active ? "text-orange-500" : "text-zinc-300"}`}>
-                      <div className={`w-4 h-3.5 rounded-md ${tab.active ? "bg-orange-100" : "bg-zinc-100"}`} />
-                      <span className="text-[7px] font-medium">{tab.label}</span>
-                    </div>
-                  ))}
-                </div>
+              </div>
+              {/* Label sous le phone */}
+              <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 flex items-center gap-1.5 whitespace-nowrap">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
+                <span className="text-[11px] font-medium text-white/60">Livret interactif - scrollez !</span>
               </div>
             </div>
 
-            {/* Floating badge */}
-            <motion.div
-              initial={reduce ? false : { opacity: 0, y: 12, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ delay: 0.8, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute -left-14 top-24 bg-white rounded-2xl shadow-lg shadow-zinc-200/80 px-3.5 py-2.5 flex items-center gap-2.5 ring-1 ring-zinc-100"
+            {/* QR code — visible seulement sur desktop */}
+            <div
+              className="hidden xl:flex flex-col items-center gap-3 rounded-3xl p-4 shrink-0"
+              style={{
+                backgroundColor: "rgba(255,255,255,0.90)",
+                backdropFilter: "blur(16px)",
+              }}
             >
-              <div className="w-2 h-2 rounded-full bg-green-400 shrink-0" />
-              <span className="text-[11px] font-semibold text-zinc-700 whitespace-nowrap">Publie en ligne</span>
-            </motion.div>
+              <p className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest text-center">
+                Scannez pour<br />tester
+              </p>
+              <a
+                href={DEMO_LIVRET}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block rounded-xl overflow-hidden hover:opacity-90 transition-opacity"
+              >
+                <QRCode
+                  value={DEMO_LIVRET}
+                  size={110}
+                  bgColor="#ffffff"
+                  fgColor="#18181b"
+                  level="M"
+                />
+              </a>
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                <span className="text-[10px] text-zinc-500 font-medium">En ligne</span>
+              </div>
+            </div>
+          </motion.div>
 
-            <motion.div
-              initial={reduce ? false : { opacity: 0, y: 12, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ delay: 1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute -right-10 bottom-28 bg-orange-500 rounded-2xl shadow-lg shadow-orange-300/50 px-3.5 py-2.5 ring-1 ring-orange-400"
-            >
-              <p className="text-[9px] font-semibold text-orange-100">QR CODE</p>
-              <p className="text-[11px] font-bold text-white">Genere</p>
-            </motion.div>
-          </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

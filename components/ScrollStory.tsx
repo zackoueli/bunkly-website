@@ -10,7 +10,7 @@ import {
 } from "@phosphor-icons/react";
 import QRCode from "react-qr-code";
 
-const DEMO_URL = "https://app.bunkly.co/b/YsOmTAq9ch";
+const DEMO_URL = "https://app.bunkly.co/b/1zdIjGyTTW";
 
 const steps = [
   {
