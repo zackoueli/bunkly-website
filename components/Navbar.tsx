@@ -7,7 +7,7 @@ import { BunklyLogo } from "./BunklyLogo";
 
 const APP_URL = "https://app.bunkly.co/fr";
 
-export function Navbar() {
+export function Navbar({ forceSolid = false }: { forceSolid?: boolean }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -17,7 +17,7 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const transparent = !scrolled && !open;
+  const transparent = !forceSolid && !scrolled && !open;
 
   return (
     <header className="fixed top-0 inset-x-0 z-50 flex justify-center pt-4 px-6 pointer-events-none">

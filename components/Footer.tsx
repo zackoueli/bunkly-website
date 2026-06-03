@@ -4,7 +4,7 @@ const APP_URL = "https://app.bunkly.co/fr";
 
 export function Footer() {
   return (
-    <footer className="pt-8">
+    <footer>
       <div
         className="relative overflow-hidden"
         style={{ minHeight: "480px" }}
@@ -12,18 +12,18 @@ export function Footer() {
         {/* Image paysage — illustration style forêt/nature */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="https://picsum.photos/seed/dark-forest-mountains-mist/1600/700"
+          src="/Footer.jpg"
           alt=""
           aria-hidden
           className="absolute inset-0 w-full h-full object-cover object-center"
         />
 
-        {/* Dégradé : BLANC opaque en haut, transparent au milieu, noir en bas */}
+        {/* Dégradé sombre uniquement en bas */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "linear-gradient(to bottom, #ffffff 0%, #ffffff 15%, rgba(255,255,255,0.0) 45%, rgba(0,0,0,0.5) 70%, rgba(0,0,0,0.88) 100%)",
+              "linear-gradient(to bottom, rgba(0,0,0,0.0) 0%, rgba(0,0,0,0.5) 60%, rgba(0,0,0,0.88) 100%)",
           }}
           aria-hidden
         />
@@ -107,12 +107,9 @@ export function Footer() {
           </div>
 
           {/* Copyright */}
-          <div className="border-t border-white/10 pt-5 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <div className="border-t border-white/10 pt-5">
             <p className="text-sm text-white/30">
               &copy; {new Date().getFullYear()} Bunkly. Tous droits reserves.
-            </p>
-            <p className="text-sm text-white/30">
-              Fait avec soin pour les hotes
             </p>
           </div>
         </div>

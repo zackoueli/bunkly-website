@@ -18,10 +18,10 @@ async function getArticles(): Promise<Article[]> {
     const snap = await adminDb
       .collection("blog_articles")
       .where("published", "==", true)
-      .orderBy("createdAt", "desc")
       .get();
     return snap.docs.map((d) => ({ id: d.id, ...d.data() } as Article));
-  } catch {
+  } catch (e) {
+    console.error("BLOG ERROR:", e);
     return [];
   }
 }
@@ -31,7 +31,7 @@ export default async function BlogPage() {
 
   return (
     <>
-      <Navbar />
+      <Navbar forceSolid />
       <main className="min-h-screen bg-stone-50 pt-16">
         {/* Header */}
         <div className="bg-white border-b border-zinc-100">

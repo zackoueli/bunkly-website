@@ -1,26 +1,68 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion, useScroll, useTransform, type Variants } from "motion/react";
+import { useRef } from "react";
 import QRCode from "react-qr-code";
 
 const APP_URL = "https://app.bunkly.co/fr";
 const DEMO_LIVRET = "https://app.bunkly.co/b/1zdIjGyTTW";
 
+const TITLE = "Bunkly.";
+
+const titleVariants: Variants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.07, delayChildren: 0.2 },
+  },
+};
+
+const letterVariants: Variants = {
+  hidden: { opacity: 0, y: 48, rotateX: -40 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    rotateX: 0,
+    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+  },
+};
+
+const wordVariants: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.06, delayChildren: 0.85 } },
+};
+
+const wordChildVariants: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
+};
+
 export function Hero() {
   const reduce = useReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+
+  // Parallaxe : l'image monte plus lentement que le scroll
+  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
+
+  const subtitle = "Creez le livret d'accueil de votre location en quelques minutes.".split(" ");
 
   return (
-    <section className="relative min-h-[100dvh] flex flex-col overflow-hidden">
-      {/* Image de fond */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+    <section ref={sectionRef} className="relative min-h-[100dvh] flex flex-col overflow-hidden">
+
+      {/* Image de fond avec parallaxe */}
+      <motion.img
         src="/hero.jpg"
         alt=""
         aria-hidden
         className="absolute inset-0 w-full h-full object-cover"
+        style={{ y: imageY, scale: 1.1 }}
       />
 
-      {/* Overlay léger */}
+      {/* Overlay */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{ background: "rgba(0,0,0,0.42)" }}
@@ -29,47 +71,78 @@ export function Hero() {
 
       <div className="relative z-10 flex-1 flex max-w-7xl mx-auto px-8 w-full py-24 lg:py-0">
 
-        {/* Gauche : texte minimaliste */}
+        {/* Gauche */}
         <div className="flex flex-col justify-center gap-8 w-full lg:w-1/2">
 
-          <motion.div
-            className="flex flex-col gap-5"
-            initial={reduce ? false : { opacity: 0, y: 24 }}
+          {/* Eyebrow */}
+          <motion.p
+            className="text-sm font-medium"
+            style={{ color: "rgba(255,255,255,0.55)", letterSpacing: "0.08em" }}
+            initial={reduce ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
-            <p
-              className="text-sm font-medium"
-              style={{ color: "rgba(255,255,255,0.55)", letterSpacing: "0.08em" }}
-            >
-              Livrets d&apos;accueil digitaux
-            </p>
+            Livrets d&apos;accueil digitaux
+          </motion.p>
 
-            <h1
-              className="text-white font-black leading-none"
-              style={{
-                fontSize: "clamp(5rem, 10vw, 8rem)",
-                letterSpacing: "-0.03em",
-              }}
-            >
-              Bunkly.
-            </h1>
+          {/* Titre lettre par lettre */}
+          <motion.h1
+            className="text-white font-black leading-none"
+            style={{
+              fontSize: "clamp(5rem, 10vw, 8rem)",
+              letterSpacing: "-0.03em",
+              perspective: "600px",
+            }}
+            variants={reduce ? undefined : titleVariants}
+            initial={reduce ? false : "hidden"}
+            animate={reduce ? { opacity: 1 } : "visible"}
+          >
+            {TITLE.split("").map((char, i) => (
+              <motion.span
+                key={i}
+                variants={reduce ? undefined : letterVariants}
+                className="inline-block"
+                style={{ display: "inline-block" }}
+              >
+                {char === " " ? " " : char}
+              </motion.span>
+            ))}
+          </motion.h1>
 
-            <p
-              className="text-xl leading-relaxed"
-              style={{ color: "rgba(255,255,255,0.62)", maxWidth: "28ch" }}
-            >
-              Creez le livret d&apos;accueil de votre location en quelques minutes.
-            </p>
-          </motion.div>
+          {/* Sous-titre mot par mot */}
+          <motion.p
+            className="text-xl leading-relaxed"
+            style={{ color: "rgba(255,255,255,0.62)", maxWidth: "28ch" }}
+            variants={reduce ? undefined : wordVariants}
+            initial={reduce ? false : "hidden"}
+            animate={reduce ? { opacity: 1 } : "visible"}
+          >
+            {subtitle.map((word, i) => (
+              <motion.span
+                key={i}
+                variants={reduce ? undefined : wordChildVariants}
+                className="inline-block mr-[0.25em]"
+              >
+                {word}
+              </motion.span>
+            ))}
+          </motion.p>
 
+          {/* CTA avec effet pulse sur le glow */}
           <motion.a
             href={APP_URL}
             className="inline-flex items-center justify-center font-semibold text-white w-fit px-8 py-4 rounded-full text-base transition-all active:scale-[0.97]"
-            style={{ backgroundColor: "#f97316", boxShadow: "0 8px 32px rgba(249,115,22,0.4)" }}
+            style={{ backgroundColor: "#f97316" }}
             initial={reduce ? false : { opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            whileHover={{ scale: 1.04, boxShadow: "0 12px 48px rgba(249,115,22,0.6)" }}
+            whileTap={{ scale: 0.97 }}
+            transition={{
+              opacity: { delay: 1.4, duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+              y: { delay: 1.4, duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+              scale: { duration: 0.15, ease: "easeOut" },
+              boxShadow: { duration: 0.15, ease: "easeOut" },
+            }}
           >
             Commencer gratuitement
           </motion.a>
@@ -78,9 +151,9 @@ export function Hero() {
         {/* Droite : phone + QR */}
         <motion.div
           className="hidden lg:flex items-center justify-end gap-5 flex-1"
-          initial={reduce ? false : { opacity: 0, x: 40 }}
+          initial={reduce ? false : { opacity: 0, x: 60 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.12, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ delay: 0.4, duration: 1, ease: [0.16, 1, 0.3, 1] }}
         >
           {/* Phone mockup */}
           <div className="relative shrink-0" style={{ width: "260px" }}>
@@ -118,11 +191,10 @@ export function Hero() {
                     sandbox="allow-scripts allow-same-origin"
                   />
                 </div>
-
-
               </div>
             </div>
-            {/* Label Scroll à gauche du phone */}
+
+            {/* Scroll indicator */}
             <div className="absolute -left-10 top-1/2 -translate-y-1/2 flex flex-col items-center gap-2">
               <div className="w-px h-14 bg-white/30" />
               <span
@@ -139,9 +211,12 @@ export function Hero() {
           </div>
 
           {/* QR code */}
-          <div
+          <motion.div
             className="hidden xl:flex flex-col items-center gap-3 rounded-3xl p-4 shrink-0"
             style={{ backgroundColor: "rgba(255,255,255,0.92)", backdropFilter: "blur(16px)" }}
+            initial={reduce ? false : { opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.8, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
           >
             <p className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest text-center">
               Scannez<br />pour tester
@@ -158,7 +233,7 @@ export function Hero() {
               <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
               <span className="text-[10px] text-zinc-500 font-medium">En ligne</span>
             </div>
-          </div>
+          </motion.div>
         </motion.div>
 
       </div>

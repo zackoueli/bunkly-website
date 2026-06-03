@@ -5,7 +5,6 @@ import { HowItWorks } from "@/components/HowItWorks";
 import { PhotosSouvenirs } from "@/components/PhotosSouvenirs";
 import { Pricing } from "@/components/Pricing";
 import { FAQ } from "@/components/FAQ";
-import { CTA } from "@/components/CTA";
 import { Footer } from "@/components/Footer";
 
 export default function Home() {
@@ -19,7 +18,6 @@ export default function Home() {
         <PhotosSouvenirs />
         <Pricing />
         <FAQ />
-        <CTA />
       </main>
       <Footer />
     </>
